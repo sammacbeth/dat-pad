@@ -1,0 +1,31 @@
+{
+  "name": "dat-pad",
+  "version": "1.0.0",
+  "description": "Collaborative editor with dat-shared-doc",
+  "main": "index.js",
+  "scripts": {
+    "build": "browserify -e index.js -t [ babelify --global ] > bundle.js",
+    "postinstall": "patch-package --patch-dir node_modules/@sammacbeth/dat-shared-doc/patches/"
+  },
+  "author": "Sam Macbeth",
+  "license": "MIT",
+  "dependencies": {
+    "@geut/discovery-swarm-webrtc": "^2.2.7",
+    "@sammacbeth/dat-shared-doc": "^1.0.0",
+    "corestore": "^5.2.0",
+    "lib0": "^0.2.25",
+    "quill": "^1.3.7",
+    "quill-cursors": "^3.0.0",
+    "random-access-idb": "1.1.1",
+    "y-quill": "^0.1.1",
+    "yjs": "^13.0.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@geut/sodium-javascript-plus": "0.0.5",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "babelify": "^10.0.0",
+    "browserify": "^16.5.1",
+    "patch-package": "^6.2.2"
+  }
+}
