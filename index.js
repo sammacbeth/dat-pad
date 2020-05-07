@@ -34,6 +34,7 @@ const text = document.querySelector('#editor p');
   const opts = {
     announceFeeds: true,
     awareness: true,
+    bootstrapEnabled: true,
     policy: "GRANT_ALL_ADMIN"
   };
   const ydoc = address

@@ -11,7 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "@geut/discovery-swarm-webrtc": "^2.2.7",
-    "@sammacbeth/dat-shared-doc": "^1.0.0",
+    "@sammacbeth/dat-shared-doc": "1.0.1",
     "corestore": "^5.2.0",
     "lib0": "^0.2.25",
     "quill": "^1.3.7",
