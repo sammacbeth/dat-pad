@@ -26,7 +26,6 @@ function storeName() {
   }
   return localStorage.getItem(address) || address;
 }
-const text = document.querySelector('#editor p');
 
 (async () => {
   const storageName = storeName();
@@ -51,7 +50,6 @@ const text = document.querySelector('#editor p');
     localStorage.setItem(address, storageName);
   }
   const addressBuf = Buffer.from(address, "hex");
-  // text.innerText = 'Looking for peers...'
 
   sw.on("connection", (conn, info) => {
     const stream = store.replicate(info.initiator, { live: true });
@@ -62,24 +60,32 @@ const text = document.querySelector('#editor p');
   sw.join(addressBuf);
 
   await ydoc.ready;
-  // text.innerText = 'Loading document...'
-
-  const editor = CodeMirror(document.getElementById('editor'), {
-    mode: 'markdown',
-    lineNumbers: true,
-    lineWrapping: true,
-    spellcheck: true,
-    viewportMargin: Infinity,
-  })
-  
-  // if (!ydoc.writable) {
-  //   editor.enable(false);
-  //   ydoc.multicore.on('writer', () => {
-  //     editor.enable(true);
-  //   })
-  // }
   const type = ydoc.doc.getText("codemirror");
-  const binding = new CodemirrorBinding(type, editor, ydoc.awareness.awareness);
+
+  function setupEditor() {
+    const div = document.getElementById('editor') || document.createElement('div')
+    div.setAttribute('id', 'editor');
+    div.setAttribute('class', 'column');
+    document.getElementById('content').insertBefore(div, document.getElementById('doc'));
+    const editor = CodeMirror(div, {
+      mode: 'markdown',
+      lineNumbers: true,
+      lineWrapping: true,
+      spellcheck: true,
+      viewportMargin: Infinity,
+    })
+    const binding = new CodemirrorBinding(type, editor, ydoc.awareness.awareness);
+    window.binding = binding;
+  }
+  
+  if (ydoc.writable){
+    setupEditor();
+  } else {
+    ydoc.multicore.once('writer', () => {
+      setupEditor()
+    })
+  }
+  
 
   const md = new MarkdownIt();
   const docContents = document.getElementById('doc');
@@ -88,5 +94,4 @@ const text = document.querySelector('#editor p');
   })
 
   window.ydoc = ydoc;
-  window.binding = binding;
 })();

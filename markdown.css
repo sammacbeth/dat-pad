@@ -4,6 +4,7 @@
   line-height: 1.5;
   word-wrap: break-word;
   border-left: 2px solid #eee;
+  max-width: 800px;
 }
 
 #editor,.CodeMirror {
