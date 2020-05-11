@@ -3,9 +3,11 @@ const RandomAccess = require('random-access-idb');
 const Discovery = require('@geut/discovery-swarm-webrtc');
 const pump = require('pump');
 
-const Quill = require('quill');
-const { QuillBinding } = require('y-quill');
-const QuillCursors = require('quill-cursors');
+const CodeMirror = require('codemirror');
+const { CodemirrorBinding } = require('y-codemirror/dist/y-codemirror.cjs');
+require('codemirror/mode/markdown/markdown');
+
+const MarkdownIt = require('markdown-it');
 
 const { DatYDoc } = require("@sammacbeth/dat-shared-doc")
 
@@ -49,7 +51,7 @@ const text = document.querySelector('#editor p');
     localStorage.setItem(address, storageName);
   }
   const addressBuf = Buffer.from(address, "hex");
-  text.innerText = 'Looking for peers...'
+  // text.innerText = 'Looking for peers...'
 
   sw.on("connection", (conn, info) => {
     const stream = store.replicate(info.initiator, { live: true });
@@ -60,44 +62,31 @@ const text = document.querySelector('#editor p');
   sw.join(addressBuf);
 
   await ydoc.ready;
-  text.innerText = 'Loading document...'
+  // text.innerText = 'Loading document...'
 
-  Quill.register('modules/cursors', QuillCursors)
-  const editor = new Quill("#editor", {
-    modules: {
-      cursors: true,
-      toolbar: [
-        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-        ['blockquote', 'code-block'],
-      
-        [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-        [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-        [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-        [{ 'direction': 'rtl' }],                         // text direction
-      
-        [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-      
-        [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-        [{ 'font': [] }],
-        [{ 'align': [] }],
-      
-        ['clean']            
-      ],
-    },
-    placeholder: 'Type something...',
-    theme: "snow",
-  });
+  const editor = CodeMirror(document.getElementById('editor'), {
+    mode: 'markdown',
+    lineNumbers: true,
+    lineWrapping: true,
+    spellcheck: true,
+    viewportMargin: Infinity,
+  })
   
-  if (!ydoc.writable) {
-    editor.enable(false);
-    ydoc.multicore.on('writer', () => {
-      editor.enable(true);
-    })
-  }
-  const type = ydoc.doc.getText("quill");
-  const binding = new QuillBinding(type, editor, ydoc.awareness.awareness);
+  // if (!ydoc.writable) {
+  //   editor.enable(false);
+  //   ydoc.multicore.on('writer', () => {
+  //     editor.enable(true);
+  //   })
+  // }
+  const type = ydoc.doc.getText("codemirror");
+  const binding = new CodemirrorBinding(type, editor, ydoc.awareness.awareness);
+
+  const md = new MarkdownIt();
+  const docContents = document.getElementById('doc');
+  type.observe(() => {
+    docContents.innerHTML = md.render(type.toJSON())
+  })
 
   window.ydoc = ydoc;
+  window.binding = binding;
 })();
