@@ -109,8 +109,11 @@ function storeName() {
   updateWriterCount();
 
   function updateWriterCount() {
-    const writers = [...ydoc.multicore.metadata.getFeeds("ydoc").keys()].length;
-    document.getElementById("writer-count").innerText = `${writers}`;
+    const feeds = ydoc.multicore.metadata.getFeeds("ydoc");
+    if (feeds) {
+      const writers = [...feeds.keys()].length;
+      document.getElementById("writer-count").innerText = `${writers}`;
+    }
   }
 
   window.ydoc = ydoc;
