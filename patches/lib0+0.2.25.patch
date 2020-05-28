@@ -1,9 +1,0 @@
-diff --git a/node_modules/lib0/package.json b/node_modules/lib0/package.json
-index 7bbfd03..7c37d22 100644
---- a/node_modules/lib0/package.json
-+++ b/node_modules/lib0/package.json
-@@ -6,3 +6,3 @@
-   "type": "module",
--  "main": "./index.js",
-+  "main": "./dist/index.cjs",
-   "module": "./index.js",
