@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="node_modules/bulma/css/bulma.css">
+    <link rel="stylesheet" href="./markdown.css">
+    <link rel=stylesheet href="node_modules/codemirror/lib/codemirror.css"  async defer>
+    <title>Dat Pad</title>
+    <style>
+      .remote-caret {
+        position: relative;
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+        margin-left: -1px;
+        margin-right: -1px;
+        box-sizing: border-box;
+      }
+      .remote-caret > div {
+        position: absolute;
+        top: -1.05em;
+        left: -1px;
+        font-size: .6em;
+        background-color: rgb(250, 129, 0);
+        font-family: serif;
+        font-style: normal;
+        font-weight: normal;
+        line-height: normal;
+        user-select: none;
+        color: white;
+        padding-left: 2px;
+        padding-right: 2px;
+        z-index: 3;
+        transition: opacity .3s ease-in-out;
+      }
+      .remote-caret.hide-name > div {
+        transition-delay: .7s;
+        opacity: 0;
+      }
+      .remote-caret:hover > div {
+        opacity: 1;
+        transition-delay: 0s;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar is-info" role="navigation">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="/">DAT Pad</a>
+      </div>
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="tags has-addons">
+            <span class="tag">Writers</span>
+            <span class="tag is-warning" id="writer-count">0</span>
+          </div>
+        </div>
+        <div class="navbar-item">
+          <div class="tags has-addons">
+            <span class="tag">Peers</span>
+            <span class="tag is-primary" id="peer-count">0</span>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="columns" id="content">
+        <div class="column" id="doc"></div>
+      </div>
+    </div>
+  </body>
+  <script src="./bundle.js"></script>
+</html>
