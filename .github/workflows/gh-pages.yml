@@ -13,9 +13,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Setup node
-      uses: actions/setup-node@1.4.2
-
     - name: Install
       run: npm ci
     
