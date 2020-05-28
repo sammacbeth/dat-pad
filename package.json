@@ -4,8 +4,9 @@
   "description": "Collaborative editor with dat-shared-doc",
   "main": "index.js",
   "scripts": {
-    "build": "browserify -e index.js -t [ babelify --global ] > bundle.js",
-    "postinstall": "patch-package"
+    "build": "browserify -e src/index.js -t [ babelify --global ] > site/bundle.js",
+    "postinstall": "patch-package && npm run vendor-copy",
+    "vendor-copy": "cp ./node_modules/bulma/css/bulma.css ./site/ && cp ./node_modules/codemirror/lib/codemirror.css ./site/"
   },
   "author": "Sam Macbeth",
   "license": "MIT",
