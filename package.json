@@ -5,13 +5,13 @@
   "main": "index.js",
   "scripts": {
     "build": "browserify -e index.js -t [ babelify --global ] > bundle.js",
-    "postinstall": "patch-package --patch-dir node_modules/@sammacbeth/dat-shared-doc/patches/"
+    "postinstall": "patch-package"
   },
   "author": "Sam Macbeth",
   "license": "MIT",
   "dependencies": {
     "@geut/discovery-swarm-webrtc": "^2.2.7",
-    "@sammacbeth/dat-shared-doc": "1.0.2",
+    "@sammacbeth/dat-shared-doc": "1.0.3",
     "bulma": "^0.8.2",
     "codemirror": "^5.53.2",
     "corestore": "^5.2.0",
